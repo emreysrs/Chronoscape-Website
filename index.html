@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronoscape | A Temporal Psychogeography Lens - AR Time Travel Experience</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable manual dark mode toggling
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        'chrono-bg': '#fafaf9', // Stone 50
+                        'chrono-surface': '#ffffff',
+                        'chrono-text': '#292524', // Stone 800
+                        'chrono-sub': '#78716c', // Stone 500
+                        'chrono-accent': '#0f766e', // Teal 700
+                        'chrono-border': '#e7e5e4', // Stone 200
+                        'isfahan-primary': '#b45309', // Amber 700
+                        'london-primary': '#334155', // Slate 700
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            /* Default Light Mode Vars */
+            background-color: #fafaf9;
+            color: #292524;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Dark Mode Overrides handled by Tailwind 'dark:' classes mostly, but base body here */
+        html.dark body {
+            background-color: #1c1917; /* Stone 900 */
+            color: #e7e5e4; /* Stone 200 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .puzzle-node {
+            transition: all 0.3s ease-out;
+        }
+        .puzzle-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        html.dark .puzzle-node:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Minimalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fafaf9; 
+        }
+        html.dark ::-webkit-scrollbar-track {
+            background: #1c1917;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #44403c; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e; 
+        }
+
+        /* Mobile Menu Animation */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .mobile-menu.hidden {
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Smooth tap highlights for mobile */
+        * {
+            -webkit-tap-highlight-color: rgba(15, 118, 110, 0.1);
+        }
+
+        /* Navbar animations */
+        nav {
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Logo pulse animation */
+        nav span {
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Menu items stagger animation */
+        nav a {
+            animation: fadeInUp 0.6s ease-out both;
+            transform: translateY(0);
+        }
+
+        nav a:nth-child(1) { animation-delay: 0.4s; }
+        nav a:nth-child(2) { animation-delay: 0.5s; }
+        nav a:nth-child(3) { animation-delay: 0.6s; }
+        nav a:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button hover effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        /* Button secondary effect */
+        .btn-secondary {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: currentColor;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .btn-secondary:hover::after {
+            width: 80%;
+        }
+
+        /* Scroll progress indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0f766e, #2dd4bf);
+            width: 0%;
+            z-index: 999;
+            transition: width 0.1s ease;
+        }
+
+        /* Interactive icon animations */
+        #theme-toggle svg {
+            transition: transform 0.3s ease, opacity 0.2s ease;
+        }
+
+        #theme-toggle:hover svg {
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        #mobile-menu-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        #mobile-menu-button:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* Menu items hover effect */
+        nav a {
+            position: relative;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        /* City toggle buttons animation */
+        .city-btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .city-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 9999px;
+            padding: 2px;
+            background: linear-gradient(45deg, #0f766e, #2dd4bf);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .city-btn:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-teal-100 selection:text-teal-900 dark:selection:bg-teal-900 dark:selection:text-teal-100">
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-chrono-surface/95 dark:bg-stone-900/95 backdrop-blur-md border-b border-chrono-border dark:border-stone-800 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 sm:h-20 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="font-serif font-bold text-lg sm:text-xl text-chrono-text dark:text-stone-100 tracking-tight">Chronoscape</span>
+                </div>
+                
+                <div class="flex items-center space-x-3 sm:space-x-6">
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex md:space-x-8 lg:space-x-12">
+                        <a href="#overview" class="text-sm font-medium text-chrono-sub dark:text-stone-400 hover:text-chrono-accent dark:hover:text-teal-400 transition-colors">Overview</a>
+                        <a href="#puzzle-logic" class="text-sm font-medium text-chrono-sub dark:text-stone-400 hover:text-chrono-accent dark:hover:text-teal-400 transition-colors">AI Engine</a>
+                        <a href="#case-studies" class="text-sm font-medium text-chrono-sub dark:text-stone-400 hover:text-chrono-accent dark:hover:text-teal-400 transition-colors">Case Studies</a>
+                        <a href="#sources-tech" class="text-sm font-medium text-chrono-sub dark:text-stone-400 hover:text-chrono-accent dark:hover:text-teal-400 transition-colors">Sources & Tech</a>
+                    </div>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors" aria-label="Toggle Dark Mode">
+                        <!-- Sun Icon -->
+                        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        <!-- Moon Icon -->
+                        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors" aria-label="Toggle Menu">
+                        <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden mobile-menu absolute left-0 right-0 top-16 sm:top-20 bg-white dark:bg-stone-900 border-b border-chrono-border dark:border-stone-800 shadow-lg">
+                <div class="px-4 pt-2 pb-4 space-y-1">
+                    <a href="#overview" class="block px-4 py-3 rounded-lg text-base font-medium text-chrono-text dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" onclick="closeMobileMenu()">Overview</a>
+                    <a href="#puzzle-logic" class="block px-4 py-3 rounded-lg text-base font-medium text-chrono-text dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" onclick="closeMobileMenu()">AI Engine</a>
+                    <a href="#case-studies" class="block px-4 py-3 rounded-lg text-base font-medium text-chrono-text dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" onclick="closeMobileMenu()">Case Studies</a>
+                    <a href="#sources-tech" class="block px-4 py-3 rounded-lg text-base font-medium text-chrono-text dark:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors" onclick="closeMobileMenu()">Sources & Tech</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-chrono-bg dark:bg-stone-950 pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-32 md:pb-24 overflow-hidden transition-colors duration-300" id="overview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-chrono-text dark:text-stone-100 leading-tight mb-6 sm:mb-8">
+                    A Temporal <br/>
+                    <span class="text-chrono-accent dark:text-teal-400 font-normal italic">Psychogeography Lens</span>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-chrono-sub dark:text-stone-400 font-light leading-relaxed max-w-2xl mb-8 sm:mb-10">
+                    Chronoscape uses Augmented Reality and Generative AI to create immersive temporal experiences. The system transforms abstract data about past and future into tangible, visual layers over our present reality, creating experiential understanding through direct visual engagement with temporal data.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <a href="#case-studies" class="btn-primary inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-transparent text-sm font-medium rounded-full text-white bg-chrono-text dark:bg-stone-800 hover:bg-black dark:hover:bg-stone-700 transition-all duration-300 shadow-sm hover:shadow-lg active:scale-95 z-10">
+                        <span class="relative z-10">Explore Scenarios</span>
+                    </a>
+                    <a href="#puzzle-logic" class="btn-secondary inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-chrono-border dark:border-stone-700 text-sm font-medium rounded-full text-chrono-text dark:text-stone-300 bg-white dark:bg-stone-900 hover:bg-stone-50 dark:hover:bg-stone-800 transition-all duration-300 hover:shadow-md active:scale-95">
+                        View Methodology
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Abstract Decoration -->
+        <div class="absolute top-0 right-0 w-1/2 sm:w-1/3 h-full bg-stone-100 dark:bg-stone-900 opacity-30 sm:opacity-50 skew-x-12 transform origin-top-right -z-0 pointer-events-none"></div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="py-16 sm:py-20 md:py-24 bg-white dark:bg-stone-900 border-b border-chrono-border dark:border-stone-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3 text-center">The Core Disconnect</h2>
+                <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 mb-8 sm:mb-12 text-center">Why Traditional Methods Fall Short</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-chrono-accent dark:text-teal-400 text-sm font-bold">1</div>
+                        <div>
+                            <h4 class="font-medium text-chrono-text dark:text-stone-100 mb-2">Abstract History</h4>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400">Historical information remains abstract in books and archives, failing to create visceral understanding of time's impact.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-chrono-accent dark:text-teal-400 text-sm font-bold">2</div>
+                        <div>
+                            <h4 class="font-medium text-chrono-text dark:text-stone-100 mb-2">Impersonal Futures</h4>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400">Future scenarios feel distant and impersonal when presented as statistics, lacking the immersive quality needed for emotional connection.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-chrono-accent dark:text-teal-400 text-sm font-bold">3</div>
+                        <div>
+                            <h4 class="font-medium text-chrono-text dark:text-stone-100 mb-2">Emotional Distance</h4>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400">People struggle to connect emotionally with temporal scales beyond their lifetime, making long-term planning abstract.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-chrono-accent dark:text-teal-400 text-sm font-bold">4</div>
+                        <div>
+                            <h4 class="font-medium text-chrono-text dark:text-stone-100 mb-2">Limited Methods</h4>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400">Traditional learning methods—archives, museum guides, projections—provide information but lack meaningful experiential engagement.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700 text-center">
+                    <p class="text-chrono-text dark:text-stone-200 font-serif text-lg italic">
+                        "Unlike traditional information sources, Chronoscape creates experiential understanding through direct visual engagement with temporal data."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Solution: Minimal Grid -->
+    <div class="py-16 sm:py-20 md:py-24 bg-white dark:bg-stone-900 border-b border-chrono-border dark:border-stone-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
+                <div class="md:col-span-1">
+                    <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3">The Solution</h2>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 leading-snug">The Dual-Lens System</h3>
+                </div>
+                <div class="md:col-span-2 grid grid-cols-1 gap-6 sm:gap-8">
+                    <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                        <div class="text-amber-700 dark:text-amber-500 text-2xl mb-4 font-serif italic">The Archaeological Lens</div>
+                        <p class="text-chrono-sub dark:text-stone-400 leading-relaxed text-sm">
+                            AI-reconstructed historical environments using archival maps, photographs, textual records, and behavioral studies. Users select a specific year and experience period-accurate visualizations with environmental details and human activity simulations, moving from reading about history to watching virtual masons work.
+                        </p>
+                    </div>
+                    <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                        <div class="text-slate-700 dark:text-slate-400 text-2xl mb-4 font-serif italic">The Speculative Lens</div>
+                        <p class="text-chrono-sub dark:text-stone-400 leading-relaxed text-sm">
+                            Multi-dimensional future scenario visualizations using "Puzzle Logic." The AI analyzes interconnected themes and social sentiment to render the most probable future reality, correlating physical data (climate models) with social data (public sentiment) to generate coherent scenarios rather than static images.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Puzzle Logic Engine -->
+    <div id="puzzle-logic" class="py-16 sm:py-20 md:py-24 bg-chrono-bg dark:bg-stone-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 sm:mb-16 max-w-2xl">
+                <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3">Technical Framework</h2>
+                <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 mb-4">The "Puzzle Logic" Engine</h3>
+                <p class="text-chrono-sub dark:text-stone-400">
+                    The system acts as a predictive engine, correlating physical data (climate models) with social data (public sentiment) to generate coherent scenarios. Click the nodes to understand how the AI looks for correlations to predict stability vs. instability, rather than just static images.
+                </p>
+            </div>
+
+            <!-- Interactive Flow Diagram -->
+            <div class="max-w-5xl mx-auto bg-white dark:bg-stone-900 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 border border-chrono-border dark:border-stone-800 shadow-sm transition-colors duration-300">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center relative">
+                    
+                    <!-- Connecting Lines (Visual Only, large screens) -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-stone-100 dark:bg-stone-800 -z-0"></div>
+
+                    <!-- Inputs -->
+                    <div class="space-y-6 z-10">
+                        <div class="text-xs font-bold text-chrono-sub dark:text-stone-500 uppercase tracking-wider mb-2 text-center md:text-left">Inputs</div>
+                        <div class="puzzle-node bg-white dark:bg-stone-800 p-5 rounded-lg border border-l-4 border-stone-200 dark:border-stone-700 border-l-blue-500 dark:border-l-blue-500 shadow-sm cursor-pointer hover:border-stone-300 dark:hover:border-stone-600" onclick="updatePuzzleDetail('physical')">
+                            <h4 class="font-medium text-chrono-text dark:text-stone-200">Physical Data</h4>
+                            <p class="text-xs text-chrono-sub dark:text-stone-400 mt-1">Climate, Geology, Infrastructure</p>
+                        </div>
+                        <div class="puzzle-node bg-white dark:bg-stone-800 p-5 rounded-lg border border-l-4 border-stone-200 dark:border-stone-700 border-l-pink-500 dark:border-l-pink-500 shadow-sm cursor-pointer hover:border-stone-300 dark:hover:border-stone-600" onclick="updatePuzzleDetail('social')">
+                            <h4 class="font-medium text-chrono-text dark:text-stone-200">Social Data</h4>
+                            <p class="text-xs text-chrono-sub dark:text-stone-400 mt-1">Sentiment, Protests, Discourse</p>
+                        </div>
+                    </div>
+
+                    <!-- Core -->
+                    <div class="flex flex-col items-center justify-center z-10">
+                        <div class="bg-chrono-text dark:bg-stone-700 text-white p-8 rounded-full shadow-lg w-48 h-48 flex flex-col items-center justify-center text-center puzzle-node cursor-pointer ring-4 ring-stone-100 dark:ring-stone-800" onclick="updatePuzzleDetail('core')">
+                            <span class="text-3xl mb-2 font-serif italic">Logic</span>
+                            <span class="font-medium text-xs uppercase tracking-widest opacity-80">Correlation Engine</span>
+                        </div>
+                    </div>
+
+                    <!-- Outputs -->
+                    <div class="space-y-6 z-10">
+                        <div class="text-xs font-bold text-chrono-sub dark:text-stone-500 uppercase tracking-wider mb-2 text-center md:text-right">Outputs</div>
+                        <div class="puzzle-node bg-white dark:bg-stone-800 p-5 rounded-lg border border-r-4 border-stone-200 dark:border-stone-700 border-r-green-500 dark:border-r-green-500 shadow-sm cursor-pointer hover:border-stone-300 dark:hover:border-stone-600 text-right" onclick="updatePuzzleDetail('landscape')">
+                            <h4 class="font-medium text-chrono-text dark:text-stone-200">Landscape Layer</h4>
+                            <p class="text-xs text-chrono-sub dark:text-stone-400 mt-1">Topological Deformation</p>
+                        </div>
+                        <div class="puzzle-node bg-white dark:bg-stone-800 p-5 rounded-lg border border-r-4 border-stone-200 dark:border-stone-700 border-r-purple-500 dark:border-r-purple-500 shadow-sm cursor-pointer hover:border-stone-300 dark:hover:border-stone-600 text-right" onclick="updatePuzzleDetail('crowd')">
+                            <h4 class="font-medium text-chrono-text dark:text-stone-200">Crowd Layer</h4>
+                            <p class="text-xs text-chrono-sub dark:text-stone-400 mt-1">Behavioral Simulation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Detail Box -->
+                <div class="mt-12 pt-8 border-t border-stone-100 dark:border-stone-800">
+                    <h3 id="puzzle-title" class="text-lg font-serif text-chrono-text dark:text-stone-200 mb-2 transition-opacity duration-300">Explore the Engine</h3>
+                    <p id="puzzle-desc" class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed max-w-2xl transition-opacity duration-300">
+                        Select any node in the diagram above to reveal how Chronoscape processes data to generate predictive scenarios.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparative Case Studies -->
+    <div id="case-studies" class="py-16 sm:py-20 md:py-24 bg-white dark:bg-stone-900 border-y border-chrono-border dark:border-stone-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-16 gap-6 sm:gap-8">
+                <div class="max-w-2xl">
+                    <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3">Implementation</h2>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 mb-4">Comparative Case Studies</h3>
+                    <p class="text-chrono-sub dark:text-stone-400">
+                        Demonstrating the system's versatility with two contrasting locations: one facing existential loss (Isfahan) and one facing defensive adaptation (London). Each location showcases how the Universal Chronoscape framework adapts through local historical research, regional data processing, and culturally specific crowd behaviors.
+                    </p>
+                </div>
+                <!-- Controls -->
+                <div class="flex bg-chrono-bg dark:bg-stone-800 p-1 rounded-full border border-chrono-border dark:border-stone-700 w-full sm:w-auto">
+                    <button onclick="switchCity('isfahan')" id="btn-isfahan" class="city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white shadow-sm text-chrono-text active:scale-95 hover:shadow-md">
+                        Isfahan
+                    </button>
+                    <button onclick="switchCity('london')" id="btn-london" class="city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 text-chrono-sub hover:text-chrono-text active:scale-95 hover:bg-white/50 dark:hover:bg-stone-700/50">
+                        London
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Sidebar: Context -->
+                <div class="lg:col-span-4 space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-serif text-chrono-text dark:text-stone-100 mb-2" id="city-title">Isfahan, Iran</h3>
+                        <p class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed" id="city-desc">
+                            Focus: Water Bankruptcy & Heritage Loss. A historic oasis city facing the drying of its lifeline river.
+                        </p>
+                    </div>
+                    
+                    <div class="border-t border-chrono-border dark:border-stone-800 pt-6">
+                        <h4 class="text-xs font-bold text-chrono-sub dark:text-stone-500 uppercase tracking-wider mb-4">Vulnerability Profile</h4>
+                        <div class="chart-container">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content: Dual Lens -->
+                <div class="lg:col-span-8 grid grid-cols-1 gap-8">
+                    
+                    <!-- Past Card -->
+                    <div class="group relative bg-amber-50/50 dark:bg-amber-950/20 rounded-xl p-8 border border-amber-100/50 dark:border-amber-900/30 hover:border-amber-200 dark:hover:border-amber-800 transition-colors" id="past-panel">
+                        <div class="absolute top-8 right-8 text-xs font-bold text-amber-800/60 dark:text-amber-500/60 uppercase tracking-widest" id="past-year">1600 AD</div>
+                        <h4 class="font-serif text-xl text-amber-900 dark:text-amber-500 mb-6">Archaeological Lens</h4>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div>
+                                <div class="text-xs font-bold text-amber-800/60 dark:text-amber-500/60 uppercase mb-2">Environment</div>
+                                <p class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed" id="past-visual">The Zayandeh Rood flows fully. Naqsh-e Jahan Square is lush and green.</p>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-amber-800/60 dark:text-amber-500/60 uppercase mb-2">Social Fabric</div>
+                                <p class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed" id="past-crowd">Royal processions and bazaar merchants. Soundscape of flowing water.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Future Card -->
+                    <div class="group relative bg-stone-50 dark:bg-stone-800/50 rounded-xl p-8 border border-stone-200 dark:border-stone-700 hover:border-stone-300 dark:hover:border-stone-600 transition-colors" id="future-panel">
+                        <div class="absolute top-8 right-8 text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest" id="future-year">2050 AD</div>
+                        <h4 class="font-serif text-xl text-chrono-text dark:text-stone-100 mb-6">Speculative Lens</h4>
+                        
+                        <!-- Logic Visualizer -->
+                        <div class="mb-8 p-4 bg-white dark:bg-stone-900 rounded-lg border border-stone-100 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs transition-colors duration-300">
+                            <div class="flex-1 text-center sm:text-left">
+                                <span class="block text-chrono-sub dark:text-stone-500 mb-1">Input A</span>
+                                <span class="font-medium text-chrono-text dark:text-stone-200" id="logic-input-a">Subsidence Data</span>
+                            </div>
+                            <div class="text-stone-300 dark:text-stone-700">+</div>
+                            <div class="flex-1 text-center sm:text-left">
+                                <span class="block text-chrono-sub dark:text-stone-500 mb-1">Input B</span>
+                                <span class="font-medium text-chrono-text dark:text-stone-200" id="logic-input-b">Protest Data</span>
+                            </div>
+                            <div class="text-stone-300 dark:text-stone-700">=</div>
+                            <div class="flex-1 bg-chrono-text dark:bg-stone-700 text-white px-4 py-2 rounded text-center">
+                                <span class="font-medium" id="logic-output">Scenario: Ghost City</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div>
+                                <div class="text-xs font-bold text-chrono-sub dark:text-stone-500 uppercase mb-2">Projected Landscape</div>
+                                <p class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed" id="future-visual">Riverbed is a permanent dust bowl. Structural cracks in heritage bridges.</p>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-chrono-sub dark:text-stone-500 uppercase mb-2">Projected Behavior</div>
+                                <p class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed" id="future-crowd">Mass migration. Remaining agents wear dust masks.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW SECTION: Sources & Technologies -->
+    <div id="sources-tech" class="py-16 sm:py-20 md:py-24 bg-chrono-bg dark:bg-stone-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 sm:mb-16">
+                <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3">Source Ecosystem & Technical Stack</h2>
+                <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 mb-4">Multi-Tiered Data Integration</h3>
+                <p class="text-chrono-sub dark:text-stone-400 max-w-2xl">
+                    Chronoscape ingests data from a comprehensive multi-tiered ecosystem of sources, categorized by their specific utility. The system combines historical archives, future trend forecasting, scientific databases, and real-time social sentiment analysis to generate accurate temporal scenarios across diverse geopolitical contexts.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
+                
+                <!-- Data Ecosystem -->
+                <div>
+                    <h4 class="font-serif text-lg sm:text-xl text-chrono-text dark:text-stone-100 mb-6 sm:mb-8 border-b border-chrono-border dark:border-stone-800 pb-4">Data Ecosystem</h4>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-amber-600 mr-3"></span>
+                                <h5 class="text-sm font-bold text-chrono-text dark:text-stone-200 uppercase tracking-wide">Historical Reconstruction (Past)</h5>
+                            </div>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400 mb-3">Archaeological Lens data sources for period-accurate reconstructions.</p>
+                            <ul class="grid grid-cols-2 gap-2 text-xs font-medium text-chrono-text dark:text-stone-300">
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Historical Maps & Photos</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Museum Collections</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Textual Archives</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Behavioral Studies</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 mr-3"></span>
+                                <h5 class="text-sm font-bold text-chrono-text dark:text-stone-200 uppercase tracking-wide">Scientific & Environmental</h5>
+                            </div>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400 mb-3">Climate models and geological data for physical world predictions.</p>
+                            <ul class="grid grid-cols-2 gap-2 text-xs font-medium text-chrono-text dark:text-stone-300">
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Google Earth Engine</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">IPCC Climate Data</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">NASA / NSF</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Regional Surveys</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-green-500 mr-3"></span>
+                                <h5 class="text-sm font-bold text-chrono-text dark:text-stone-200 uppercase tracking-wide">Future Forecasting</h5>
+                            </div>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400 mb-3">Trend analysis and emerging technology databases.</p>
+                            <ul class="grid grid-cols-2 gap-2 text-xs font-medium text-chrono-text dark:text-stone-300">
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Futures Platform</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">World Economic Forum</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">MIT Tech Review</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">C40 Cities Climate</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-2 h-2 rounded-full bg-pink-500 mr-3"></span>
+                                <h5 class="text-sm font-bold text-chrono-text dark:text-stone-200 uppercase tracking-wide">Social Sentiment Analysis</h5>
+                            </div>
+                            <p class="text-sm text-chrono-sub dark:text-stone-400 mb-3">Real-time sentiment from global and regional platforms.</p>
+                            <ul class="grid grid-cols-2 gap-2 text-xs font-medium text-chrono-text dark:text-stone-300">
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Twitter (X) API</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Reddit API</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Telegram Channels</li>
+                                <li class="bg-white dark:bg-stone-900 px-3 py-2 rounded border border-chrono-border dark:border-stone-800">Local Forums</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technology Stack -->
+                <div>
+                    <h4 class="font-serif text-lg sm:text-xl text-chrono-text dark:text-stone-100 mb-6 sm:mb-8 border-b border-chrono-border dark:border-stone-800 pb-4">Technology Stack</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Card 1: AI Processing -->
+                        <div class="bg-white dark:bg-stone-900 p-6 rounded-xl border border-chrono-border dark:border-stone-800 shadow-sm transition-colors">
+                            <div class="text-chrono-accent dark:text-teal-400 text-lg mb-3 font-serif">AI Processing Layer</div>
+                            <ul class="space-y-2 text-xs text-chrono-sub dark:text-stone-400">
+                                <li><strong class="text-chrono-text dark:text-stone-200">Generative AI:</strong> Visual asset creation</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Stable Diffusion:</strong> Environment reconstruction</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">ML Crowd Sim:</strong> Behavioral analysis</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Future Engine:</strong> Prediction correlation</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Audio Synthesis:</strong> Period soundscapes</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2: AR Display -->
+                        <div class="bg-white dark:bg-stone-900 p-6 rounded-xl border border-chrono-border dark:border-stone-800 shadow-sm transition-colors">
+                            <div class="text-chrono-accent dark:text-teal-400 text-lg mb-3 font-serif">AR Display Layer</div>
+                            <ul class="space-y-2 text-xs text-chrono-sub dark:text-stone-400">
+                                <li><strong class="text-chrono-text dark:text-stone-200">ARKit (iOS):</strong> Mobile AR rendering</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">ARCore (Android):</strong> Cross-platform AR</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Unity 3D:</strong> Core engine</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Geospatial:</strong> Accurate overlay</li>
+                                <li><strong class="text-chrono-text dark:text-stone-200">Interface:</strong> Lens & era selection</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3: Data Integration -->
+                        <div class="bg-white dark:bg-stone-900 p-6 rounded-xl border border-chrono-border dark:border-stone-800 shadow-sm sm:col-span-2 transition-colors">
+                            <div class="text-chrono-accent dark:text-teal-400 text-lg mb-3 font-serif">Data Integration Layer</div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">Mobile Camera & GPS</span>
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">Historical Archives APIs</span>
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">Climate Database REST</span>
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">Social Media Scrapers</span>
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">GeoJSON Processing</span>
+                                <span class="bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 px-3 py-1 rounded text-xs text-chrono-sub dark:text-stone-300">Real-time Sentiment Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Value Proposition & Impact -->
+    <div class="py-16 sm:py-20 md:py-24 bg-white dark:bg-stone-900 border-y border-chrono-border dark:border-stone-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 sm:mb-16 text-center max-w-3xl mx-auto">
+                <h2 class="text-xs sm:text-sm font-bold text-chrono-accent dark:text-teal-500 uppercase tracking-widest mb-3">Project Significance</h2>
+                <h3 class="font-serif text-2xl sm:text-3xl text-chrono-text dark:text-stone-100 mb-4">Why Chronoscape?</h3>
+                <p class="text-chrono-sub dark:text-stone-400">
+                    Moving beyond information delivery to create meaningful experiential learning through direct engagement with temporal scales and human stories.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <!-- Impact 1 -->
+                <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                    <div class="text-3xl mb-4">📚</div>
+                    <h4 class="font-serif text-lg text-chrono-text dark:text-stone-100 mb-3">Experiential Learning</h4>
+                    <p class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed">
+                        Moves from reading about history to watching virtual masons work. Provides spatial context and scale comprehension through direct visual comparison that books cannot provide.
+                    </p>
+                </div>
+
+                <!-- Impact 2 -->
+                <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                    <div class="text-3xl mb-4">🔮</div>
+                    <h4 class="font-serif text-lg text-chrono-text dark:text-stone-100 mb-3">Future Awareness</h4>
+                    <p class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed">
+                        Transforms abstract future scenarios into personally relevant visual experiences. Connects global issues to local environments, encouraging proactive engagement with planning.
+                    </p>
+                </div>
+
+                <!-- Impact 3 -->
+                <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                    <div class="text-3xl mb-4">🏛️</div>
+                    <h4 class="font-serif text-lg text-chrono-text dark:text-stone-100 mb-3">Cultural Preservation</h4>
+                    <p class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed">
+                        Provides innovative access to cultural heritage through immersive historical reconstruction. Creates emotional connections with temporal data beyond one's lifetime.
+                    </p>
+                </div>
+
+                <!-- Impact 4 -->
+                <div class="bg-chrono-bg dark:bg-stone-800/50 p-8 rounded-xl border border-chrono-border dark:border-stone-700">
+                    <div class="text-3xl mb-4">🌍</div>
+                    <h4 class="font-serif text-lg text-chrono-text dark:text-stone-100 mb-3">Democratic Engagement</h4>
+                    <p class="text-sm text-chrono-sub dark:text-stone-400 leading-relaxed">
+                        Empowers public understanding of complex scenarios by making them visually accessible and grounded in social realities. Bridges the gap between abstract data and visceral understanding.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Scalability Statement -->
+            <div class="mt-16 pt-16 border-t border-chrono-border dark:border-stone-800">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h4 class="font-serif text-2xl text-chrono-text dark:text-stone-100 mb-4">Scalability & Adaptation</h4>
+                    <p class="text-chrono-sub dark:text-stone-400 leading-relaxed mb-6">
+                        The Universal Chronoscape framework adapts to specific locations through local historical research, regional data processing, and culturally specific crowd behaviors. The system can deploy to any location with historical significance, future vulnerability, and adequate archival resources.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 text-xs font-medium">
+                        <span class="bg-white dark:bg-stone-900 px-4 py-2 rounded-full border border-chrono-border dark:border-stone-800 text-chrono-text dark:text-stone-300">Local Historical Research</span>
+                        <span class="bg-white dark:bg-stone-900 px-4 py-2 rounded-full border border-chrono-border dark:border-stone-800 text-chrono-text dark:text-stone-300">Regional Data Processing</span>
+                        <span class="bg-white dark:bg-stone-900 px-4 py-2 rounded-full border border-chrono-border dark:border-stone-800 text-chrono-text dark:text-stone-300">Cultural Behavior Patterns</span>
+                        <span class="bg-white dark:bg-stone-900 px-4 py-2 rounded-full border border-chrono-border dark:border-stone-800 text-chrono-text dark:text-stone-300">Framework Flexibility</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer class="bg-white dark:bg-stone-900 border-t border-chrono-border dark:border-stone-800 py-8 sm:py-10 md:py-12 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+            <p class="text-xs sm:text-sm text-chrono-sub dark:text-stone-500 text-center md:text-left">
+                &copy; 2025 Project Chronoscape. A Temporal Psychogeography Lens.
+            </p>
+            <div class="flex flex-wrap justify-center md:justify-end gap-4 sm:gap-6 text-xs sm:text-sm text-chrono-sub dark:text-stone-500">
+                <a href="#overview" class="hover:text-chrono-text dark:hover:text-stone-300 transition-colors active:scale-95">Overview</a>
+                <a href="#puzzle-logic" class="hover:text-chrono-text dark:hover:text-stone-300 transition-colors active:scale-95">Methodology</a>
+                <a href="#case-studies" class="hover:text-chrono-text dark:hover:text-stone-300 transition-colors active:scale-95">Case Studies</a>
+                <a href="#sources-tech" class="hover:text-chrono-text dark:hover:text-stone-300 transition-colors active:scale-95">Technology</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Scroll Progress Bar
+        window.addEventListener('scroll', function() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            menuOpenIcon.classList.toggle('hidden');
+            menuCloseIcon.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            menuOpenIcon.classList.remove('hidden');
+            menuCloseIcon.classList.add('hidden');
+        }
+
+        // Close mobile menu when clicking a link inside
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                closeMobileMenu();
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInside = mobileMenuButton.contains(event.target) || mobileMenu.contains(event.target);
+            if (!isClickInside && !mobileMenu.classList.contains('hidden')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        let currentCity = 'isfahan'; // Track current city for chart redraw
+
+        // Check local storage or system preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            lightIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            // Toggle icons
+            lightIcon.classList.toggle('hidden');
+            darkIcon.classList.toggle('hidden');
+
+            // If is dark mode
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            
+            // Re-render chart to update colors
+            const data = cityData[currentCity];
+            initChart(data.riskData);
+        });
+
+        // Data Objects
+        const cityData = {
+            isfahan: {
+                title: "Isfahan, Iran",
+                desc: "Location: Naqsh-e Jahan Square & Zayandeh Rood River. Theme: Water Bankruptcy & Heritage Loss. An existential crisis as a historic oasis city faces the complete drying of its lifeline river.",
+                past: {
+                    year: "1600s (Safavid Golden Age)",
+                    visual: "The Zayandeh Rood is fully flowing. Naqsh-e Jahan Square is a lush polo field with vibrant greenery and water features.",
+                    crowd: "Royal processions, merchants trading in the bustling bazaar, citizens gathering by the water's edge. Audio: The sound of flowing water—a critical contrast to the silence of the future."
+                },
+                future: {
+                    year: "2050 (Probabilistic Future)",
+                    inputA: "Data: 16-25cm/yr Subsidence",
+                    inputB: "Social: Farmer Protests (Telegram)",
+                    output: "Result: The Ghost City",
+                    visual: "Riverbed is a permanent dust bowl. Naqsh-e Jahan Square cracked and subsiding. Structural damage visible in heritage bridges from ground sinking.",
+                    crowd: "Mass outmigration patterns (sparse density). Remaining agents wear dust masks against constant dust storms. Virtual echoes of historical protests visualized on the dry riverbed. Audio: Silence where water once flowed."
+                },
+                riskData: [90, 85, 95, 20, 10] // [Drought, Social Unrest, Heritage Loss, Flood, Heat]
+            },
+            london: {
+                title: "London, UK",
+                desc: "Location: Westminster & The River Thames. Theme: Resilience, Defense & Heat. The Fortified City—a global metropolis battling rising seas through massive defensive infrastructure while facing extreme urban heat.",
+                past: {
+                    year: "1858 (The Great Stink)",
+                    visual: "The Thames is an open sewer; heavy industrial smog obscures the sun. Ships crowd the dark, polluted water. Victorian London at its industrial peak.",
+                    crowd: "Victorian industrial workers laboring along the docks. 'Mudlarks' (scavengers) picking through low-tide sludge. Audio: Sound of steam engines and industrial machinery."
+                },
+                future: {
+                    year: "2080 (Probabilistic Future)",
+                    inputA: "Data: Sea Rise > Thames Barrier",
+                    inputB: "Social: 'Green Levy' Resistance",
+                    output: "Result: Fortress London",
+                    visual: "Massive new flood walls obstruct traditional river views (visualizing the engineering required to save the city). High-tide water presses visibly against reinforced glass barriers. Extensive green roofs and heat-reflective surfaces throughout the city.",
+                    crowd: "Agents adapt to Urban Heat Island effect (45°C summers) by staying in shadows and using covered walkways. The system visualizes the tension between 'saving the city' and 'losing the view'—a city protected but transformed."
+                },
+                riskData: [10, 40, 30, 95, 90] // [Drought, Social Unrest, Heritage Loss, Flood, Heat]
+            }
+        };
+
+        const puzzleData = {
+            physical: {
+                title: "Input A: Physical World Data",
+                desc: "The system ingests hard scientific data including climate models, geological reports, and urban planning documents. For Isfahan, this includes Geological Survey of Iran reports on land subsidence (16-25cm/year) and aquifer depletion rates. For London, it processes C40 Cities climate targets and Sea Level Rise projections compared against Thames Barrier capacity."
+            },
+            social: {
+                title: "Input B: Social World Data",
+                desc: "The system performs sentiment analysis, controversy tracking, and public discourse monitoring. In Iran, it analyzes Telegram channels showing farmer protests and public grief over the drying river. In London, it tracks sentiment regarding 'Cost of Living' vs. 'Green Levies' and monitors digital protests about new infrastructure through Twitter and local forums."
+            },
+            core: {
+                title: "The Puzzle: Correlation Engine",
+                desc: "This is the intelligence center—the AI doesn't just overlay data, it finds correlations to predict stability vs. instability. Example logic: 'If the river dries up AND social sentiment shows high anger, THEN predict Instability/Migration' rather than just 'Empty Landscape.' The engine calculates the Most Probable Future by analyzing how physical world conditions intersect with human social responses."
+            },
+            landscape: {
+                title: "Output: Generative Landscape Layer",
+                desc: "Generative AI models (Stable Diffusion) create visual assets and modify the 3D mesh of the environment based on predictions. For Isfahan, it visualizes ground subsidence and structural cracks in heritage bridges. For London, it generates massive flood walls and green infrastructure. The landscape physically deforms to match the predicted scenario."
+            },
+            crowd: {
+                title: "Output: Intelligent Crowd Simulation",
+                desc: "Agents are not static animations—they are intelligent entities that analyze historical behavioral data for period accuracy and adapt to predicted conditions. If the engine predicts extreme heat, agents seek shade. If it predicts social unrest, they form protest patterns. This creates the 'Psychogeography' element, showing how people inhabit and emotionally experience temporal landscapes."
+            }
+        };
+
+        // Chart Initialization
+        let riskChartInstance = null;
+
+        function initChart(data) {
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // Define colors based on theme
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+            const pointLabelColor = isDark ? '#a8a29e' : '#78716c';
+            const tooltipBg = isDark ? '#1c1917' : '#292524';
+            const tooltipText = isDark ? '#f5f5f4' : '#ffffff';
+            const lineColor = isDark ? 'rgba(45, 212, 191, 0.8)' : 'rgba(15, 118, 110, 0.8)'; // Teal-400 vs Teal-700
+            const fillColor = isDark ? 'rgba(45, 212, 191, 0.1)' : 'rgba(15, 118, 110, 0.1)';
+            const pointColor = isDark ? 'rgba(45, 212, 191, 1)' : 'rgba(15, 118, 110, 1)';
+
+            if(riskChartInstance) {
+                riskChartInstance.destroy();
+            }
+
+            riskChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Drought Risk', 'Social Unrest', 'Heritage Loss', 'Flood Risk', 'Heat Stress'],
+                    datasets: [{
+                        label: 'Vulnerability Score',
+                        data: data,
+                        backgroundColor: fillColor,
+                        borderColor: lineColor,
+                        pointBackgroundColor: pointColor,
+                        borderWidth: 2,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: gridColor },
+                            grid: { color: gridColor },
+                            pointLabels: {
+                                font: { size: 10, family: "'Inter', sans-serif" },
+                                color: pointLabelColor
+                            },
+                            ticks: { display: false, backdropColor: 'transparent' },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: tooltipBg,
+                            titleColor: tooltipText,
+                            bodyColor: tooltipText,
+                            titleFont: { family: "'Inter', sans-serif" },
+                            bodyFont: { family: "'Inter', sans-serif" },
+                            padding: 10,
+                            cornerRadius: 4
+                        }
+                    }
+                }
+            });
+        }
+
+        // Interaction Functions
+        function switchCity(cityKey) {
+            currentCity = cityKey;
+            const data = cityData[cityKey];
+            const btnIsfahan = document.getElementById('btn-isfahan');
+            const btnLondon = document.getElementById('btn-london');
+            
+            // Update Buttons with animation
+            if (cityKey === 'isfahan') {
+                btnIsfahan.className = "city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white dark:bg-stone-700 shadow-md text-chrono-text dark:text-stone-100 ring-2 ring-teal-500 dark:ring-teal-400 transform scale-105";
+                btnLondon.className = "city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 text-chrono-sub dark:text-stone-400 hover:text-chrono-text dark:hover:text-stone-200 hover:bg-white/50 dark:hover:bg-stone-700/50 active:scale-95";
+            } else {
+                btnLondon.className = "city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white dark:bg-stone-700 shadow-md text-chrono-text dark:text-stone-100 ring-2 ring-teal-500 dark:ring-teal-400 transform scale-105";
+                btnIsfahan.className = "city-btn flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 text-chrono-sub dark:text-stone-400 hover:text-chrono-text dark:hover:text-stone-200 hover:bg-white/50 dark:hover:bg-stone-700/50 active:scale-95";
+            }
+
+            // Update Text Content
+            document.getElementById('city-title').innerText = data.title;
+            document.getElementById('city-desc').innerText = data.desc;
+
+            // Update Past Panel
+            document.getElementById('past-year').innerText = data.past.year;
+            document.getElementById('past-visual').innerText = data.past.visual;
+            document.getElementById('past-crowd').innerText = data.past.crowd;
+
+            // Update Future Panel
+            document.getElementById('future-year').innerText = data.future.year;
+            document.getElementById('logic-input-a').innerText = data.future.inputA;
+            document.getElementById('logic-input-b').innerText = data.future.inputB;
+            document.getElementById('logic-output').innerText = data.future.output;
+            document.getElementById('future-visual').innerText = data.future.visual;
+            document.getElementById('future-crowd').innerText = data.future.crowd;
+
+            // Update Chart
+            initChart(data.riskData);
+
+            // Theme Tweaks
+            const pastPanel = document.getElementById('past-panel');
+            if (cityKey === 'isfahan') {
+                pastPanel.className = "group relative bg-amber-50/50 dark:bg-amber-950/20 rounded-xl p-8 border border-amber-100/50 dark:border-amber-900/30 hover:border-amber-200 dark:hover:border-amber-800 transition-colors";
+            } else {
+                pastPanel.className = "group relative bg-slate-50/50 dark:bg-slate-900/30 rounded-xl p-8 border border-slate-100/50 dark:border-slate-800/50 hover:border-slate-200 dark:hover:border-slate-700 transition-colors";
+            }
+        }
+
+        function updatePuzzleDetail(key) {
+            const data = puzzleData[key];
+            const titleEl = document.getElementById('puzzle-title');
+            const descEl = document.getElementById('puzzle-desc');
+            
+            titleEl.style.opacity = 0;
+            descEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                titleEl.innerText = data.title;
+                descEl.innerText = data.desc;
+                titleEl.style.opacity = 1;
+                descEl.style.opacity = 1;
+            }, 200);
+        }
+
+        // Initial Load
+        window.addEventListener('load', () => {
+            switchCity('isfahan');
+            // Set default puzzle node to "core" on load
+            updatePuzzleDetail('core');
+        });
+
+    </script>
+</body>
+</html>
