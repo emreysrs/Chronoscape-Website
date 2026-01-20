@@ -744,76 +744,106 @@
                 </p>
             </div>
 
-            <!-- Masonry Grid Gallery -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="1.jpg" alt="Project Documentation 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <!-- Carousel Container -->
+            <div class="relative max-w-6xl mx-auto">
+                <!-- Carousel Wrapper -->
+                <div class="relative overflow-hidden rounded-xl border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-lg">
+                    <!-- Slides Container -->
+                    <div id="carousel-slides" class="flex transition-transform duration-500 ease-in-out">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="1.jpg" alt="Project Documentation 1" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="2.jpg" alt="Project Documentation 2" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="3.jpg" alt="Project Documentation 3" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="4.jpg" alt="Project Documentation 4" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="5.jpg" alt="Project Documentation 5" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 6 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="6.jpg" alt="Project Documentation 6" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 7 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="7.jpg" alt="Project Documentation 7" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 8 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="8.jpg" alt="Project Documentation 8" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 9 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="9.jpg" alt="Project Documentation 9" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 10 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="10.jpg" alt="Project Documentation 10" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 11 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="11.jpg" alt="Project Documentation 11" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 12 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="12.jpg" alt="Project Documentation 12" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 13 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="13.jpg" alt="Project Documentation 13" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                        <!-- Slide 14 -->
+                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900 p-4 sm:p-8">
+                            <img src="14.jpg" alt="Project Documentation 14" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+                        </div>
+                    </div>
+
+                    <!-- Left Arrow -->
+                    <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-stone-800/90 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-3 sm:p-4 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Previous image">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Right Arrow -->
+                    <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-stone-800/90 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-3 sm:p-4 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Next image">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
                 </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="2.jpg" alt="Project Documentation 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                <!-- Slide Counter -->
+                <div class="text-center mt-6">
+                    <span id="carousel-counter" class="text-sm font-medium text-chrono-sub dark:text-stone-400">1 / 14</span>
                 </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="3.jpg" alt="Project Documentation 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="4.jpg" alt="Project Documentation 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="5.jpg" alt="Project Documentation 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="6.jpg" alt="Project Documentation 6" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="7.jpg" alt="Project Documentation 7" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="8.jpg" alt="Project Documentation 8" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="9.jpg" alt="Project Documentation 9" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="10.jpg" alt="Project Documentation 10" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="11.jpg" alt="Project Documentation 11" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="12.jpg" alt="Project Documentation 12" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="13.jpg" alt="Project Documentation 13" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <div class="gallery-item group relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square">
-                    <img src="14.jpg" alt="Project Documentation 14" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onclick="openLightbox(this.src)">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                <!-- Dots Indicator -->
+                <div class="flex justify-center gap-2 mt-4" id="carousel-dots">
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300" data-slide="0"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="1"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="2"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="3"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="4"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="5"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="6"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="7"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="8"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="9"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="10"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="11"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="12"></button>
+                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="13"></button>
                 </div>
             </div>
         </div>
@@ -828,6 +858,7 @@
         </button>
         <img id="lightbox-img" src="" alt="Enlarged view" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
     </div>
+
 
     <!-- Value Proposition & Impact -->
     <div class="py-16 sm:py-20 md:py-24 bg-white dark:bg-stone-900 border-y border-chrono-border dark:border-stone-800 transition-colors duration-300">
@@ -1201,29 +1232,87 @@
             updatePuzzleDetail('core');
         });
 
-        // Lightbox Functions
-        function openLightbox(src) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            lightboxImg.src = src;
-            lightbox.classList.remove('hidden');
-            lightbox.classList.add('flex');
-            document.body.style.overflow = 'hidden';
+        // Carousel Functionality
+        let currentSlide = 0;
+        const totalSlides = 14;
+        const carouselSlides = document.getElementById('carousel-slides');
+        const carouselCounter = document.getElementById('carousel-counter');
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+        const prevButton = document.getElementById('carousel-prev');
+        const nextButton = document.getElementById('carousel-next');
+
+        function updateCarousel() {
+            // Move the carousel
+            const offset = -currentSlide * 100;
+            carouselSlides.style.transform = `translateX(${offset}%)`;
+            
+            // Update counter
+            carouselCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update dots
+            carouselDots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.className = 'carousel-dot w-2 h-2 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300';
+                } else {
+                    dot.className = 'carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300';
+                }
+            });
         }
 
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.add('hidden');
-            lightbox.classList.remove('flex');
-            document.body.style.overflow = 'auto';
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
         }
 
-        // Close lightbox with Escape key
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Event Listeners
+        nextButton.addEventListener('click', nextSlide);
+        prevButton.addEventListener('click', prevSlide);
+
+        // Dot navigation
+        carouselDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+
+        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
             }
         });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselSlides.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carouselSlides.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+        }
 
     </script>
 </body>
