@@ -747,7 +747,7 @@
             <!-- Carousel Container -->
             <div class="relative max-w-6xl mx-auto">
                 <!-- Carousel Wrapper -->
-                <div class="relative overflow-hidden rounded-xl border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-lg">
+                <div class="relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-lg">
                     <!-- Slides Container -->
                     <div id="carousel-slides" class="flex transition-transform duration-500 ease-in-out">
                         <!-- Slide 1 -->
@@ -809,41 +809,25 @@
                     </div>
 
                     <!-- Left Arrow -->
-                    <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-stone-800/90 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-3 sm:p-4 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Previous image">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="carousel-prev" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Previous image">
+                        <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
                         </svg>
                     </button>
 
                     <!-- Right Arrow -->
-                    <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-stone-800/90 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-3 sm:p-4 rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Next image">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="carousel-next" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Next image">
+                        <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </button>
                 </div>
 
-                <!-- Slide Counter -->
-                <div class="text-center mt-6">
-                    <span id="carousel-counter" class="text-sm font-medium text-chrono-sub dark:text-stone-400">1 / 14</span>
-                </div>
-
-                <!-- Dots Indicator -->
-                <div class="flex justify-center gap-2 mt-4" id="carousel-dots">
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300" data-slide="0"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="1"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="2"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="3"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="4"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="5"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="6"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="7"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="8"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="9"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="10"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="11"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="12"></button>
-                    <button class="carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300" data-slide="13"></button>
+                <!-- Compact 3-Dot Indicator -->
+                <div class="flex justify-center gap-1.5 mt-6" id="carousel-dots">
+                    <div class="carousel-dot w-1.5 h-1.5 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300"></div>
+                    <div class="carousel-dot w-1.5 h-1.5 rounded-full bg-stone-300 dark:bg-stone-600 transition-all duration-300"></div>
+                    <div class="carousel-dot w-1.5 h-1.5 rounded-full bg-stone-300 dark:bg-stone-600 transition-all duration-300"></div>
                 </div>
             </div>
         </div>
@@ -1236,7 +1220,6 @@
         let currentSlide = 0;
         const totalSlides = 14;
         const carouselSlides = document.getElementById('carousel-slides');
-        const carouselCounter = document.getElementById('carousel-counter');
         const carouselDots = document.querySelectorAll('.carousel-dot');
         const prevButton = document.getElementById('carousel-prev');
         const nextButton = document.getElementById('carousel-next');
@@ -1246,15 +1229,23 @@
             const offset = -currentSlide * 100;
             carouselSlides.style.transform = `translateX(${offset}%)`;
             
-            // Update counter
-            carouselCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            // Update 3-dot indicator based on position
+            // Divide slides into 3 sections: 0-4, 5-9, 10-13
+            let activeDotIndex = 0;
+            if (currentSlide >= 0 && currentSlide <= 4) {
+                activeDotIndex = 0;
+            } else if (currentSlide >= 5 && currentSlide <= 9) {
+                activeDotIndex = 1;
+            } else {
+                activeDotIndex = 2;
+            }
             
-            // Update dots
+            // Update dots with animation
             carouselDots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.className = 'carousel-dot w-2 h-2 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300';
+                if (index === activeDotIndex) {
+                    dot.className = 'carousel-dot w-1.5 h-1.5 rounded-full bg-chrono-accent dark:bg-teal-400 transition-all duration-300 scale-125';
                 } else {
-                    dot.className = 'carousel-dot w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700 hover:bg-stone-400 dark:hover:bg-stone-600 transition-all duration-300';
+                    dot.className = 'carousel-dot w-1.5 h-1.5 rounded-full bg-stone-300 dark:bg-stone-600 transition-all duration-300';
                 }
             });
         }
@@ -1269,19 +1260,9 @@
             updateCarousel();
         }
 
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarousel();
-        }
-
         // Event Listeners
         nextButton.addEventListener('click', nextSlide);
         prevButton.addEventListener('click', prevSlide);
-
-        // Dot navigation
-        carouselDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => goToSlide(index));
-        });
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
