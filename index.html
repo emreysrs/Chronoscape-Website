@@ -749,83 +749,80 @@
             </div>
 
             <!-- Carousel Container -->
-            <div class="relative max-w-4xl mx-auto">
-                <!-- Carousel Wrapper -->
-                <div class="relative overflow-hidden rounded-lg border border-chrono-border dark:border-stone-800 bg-white dark:bg-stone-900 shadow-lg">
-                    <!-- Slides Container -->
-                    <div id="carousel-slides" class="flex transition-transform duration-500 ease-in-out">
-                        <!-- Slide 1 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="1.jpg" alt="Project Documentation 1" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 2 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="2.jpg" alt="Project Documentation 2" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 3 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="3.jpg" alt="Project Documentation 3" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 4 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="4.jpg" alt="Project Documentation 4" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 5 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="5.jpg" alt="Project Documentation 5" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 6 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="6.jpg" alt="Project Documentation 6" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 7 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="7.jpg" alt="Project Documentation 7" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 8 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="8.jpg" alt="Project Documentation 8" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 9 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="9.jpg" alt="Project Documentation 9" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 10 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="10.jpg" alt="Project Documentation 10" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 11 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="11.jpg" alt="Project Documentation 11" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 12 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="12.jpg" alt="Project Documentation 12" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 13 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="13.jpg" alt="Project Documentation 13" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
-                        <!-- Slide 14 -->
-                        <div class="carousel-slide min-w-full flex items-center justify-center bg-stone-50 dark:bg-stone-900">
-                            <img src="14.jpg" alt="Project Documentation 14" class="max-w-full max-h-[70vh] object-contain">
-                        </div>
+            <div class="relative">
+                <!-- Slides Container -->
+                <div id="carousel-slides" class="flex transition-transform duration-500 ease-in-out">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="1.jpg" alt="Project Documentation 1" class="max-w-full max-h-[70vh] object-contain">
                     </div>
-
-                    <!-- Left Arrow -->
-                    <button id="carousel-prev" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Previous image">
-                        <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                    </button>
-
-                    <!-- Right Arrow -->
-                    <button id="carousel-next" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Next image">
-                        <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="2.jpg" alt="Project Documentation 2" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="3.jpg" alt="Project Documentation 3" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="4.jpg" alt="Project Documentation 4" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="5.jpg" alt="Project Documentation 5" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 6 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="6.jpg" alt="Project Documentation 6" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 7 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="7.jpg" alt="Project Documentation 7" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 8 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="8.jpg" alt="Project Documentation 8" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 9 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="9.jpg" alt="Project Documentation 9" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 10 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="10.jpg" alt="Project Documentation 10" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 11 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="11.jpg" alt="Project Documentation 11" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 12 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="12.jpg" alt="Project Documentation 12" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 13 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="13.jpg" alt="Project Documentation 13" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
+                    <!-- Slide 14 -->
+                    <div class="carousel-slide min-w-full flex items-center justify-center">
+                        <img src="14.jpg" alt="Project Documentation 14" class="max-w-full max-h-[70vh] object-contain">
+                    </div>
                 </div>
+
+                <!-- Left Arrow -->
+                <button id="carousel-prev" class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Previous image">
+                    <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Right Arrow -->
+                <button id="carousel-next" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-stone-800/80 hover:bg-white dark:hover:bg-stone-700 text-chrono-text dark:text-stone-200 p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-10 group" aria-label="Next image">
+                    <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
 
                 <!-- Compact 3-Dot Indicator -->
                 <div class="flex justify-center gap-1.5 mt-6" id="carousel-dots">
